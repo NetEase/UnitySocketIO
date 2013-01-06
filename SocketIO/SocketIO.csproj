@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2F18D000-F801-40FC-8B29-CA112E33536D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SocketIO</RootNamespace>
+    <AssemblyName>SocketIO</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="socketio\Client.cs" />
+    <Compile Include="socketio\EndPointClient.cs" />
+    <Compile Include="socketio\ErrorEventArgs.cs" />
+    <Compile Include="socketio\IClient.cs" />
+    <Compile Include="socketio\IEndPointClient.cs" />
+    <Compile Include="socketio\MessageEventArgs.cs" />
+    <Compile Include="socketio\Helpers\SocketIOHandshake.cs" />
+    <Compile Include="socketio\Helpers\SocketIOMessageTypes.cs" />
+    <Compile Include="socketio\Messages\AckMessage.cs" />
+    <Compile Include="socketio\Messages\ConnectMessage.cs" />
+    <Compile Include="socketio\Messages\DisconnectMessage.cs" />
+    <Compile Include="socketio\Messages\ErrorMessage.cs" />
+    <Compile Include="socketio\Messages\EventMessage.cs" />
+    <Compile Include="socketio\Messages\Heartbeat.cs" />
+    <Compile Include="socketio\Messages\IMessage.cs" />
+    <Compile Include="socketio\Messages\JSONMessage.cs" />
+    <Compile Include="socketio\Messages\Message.cs" />
+    <Compile Include="socketio\Messages\NoopMessage.cs" />
+    <Compile Include="socketio\Messages\RegistrationManager.cs" />
+    <Compile Include="socketio\Messages\TextMessage.cs" />
+    <Compile Include="socketio\Messages\Helper\JsonEncodedEventMessage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SimpleJson">
+      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\SimpleJson.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Common">
+      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\SuperSocket.ClientEngine.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Core">
+      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\SuperSocket.ClientEngine.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Protocol">
+      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Proxy">
+      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\SuperSocket.ClientEngine.Proxy.dll</HintPath>
+    </Reference>
+    <Reference Include="WebSocket4Net">
+      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\WebSocket4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+</Project>
