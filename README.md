@@ -6,7 +6,7 @@ changing the code of socketio4net.Client to support unity3d.
 
 ## How to use
 
-It is very simple to use unitySocketIO. Copy all the DLLS locating in the file of /bin/Debug/  to your project.
+It is very simple to use UnitySocketIO. Copy all the DLLS locating in the file of /bin/Debug/  to your project.
 
 Of cource, you can download this project and compile it:
 
@@ -14,7 +14,7 @@ Of cource, you can download this project and compile it:
 
 ## API
 
-Create and initialize a new unitySocketIO client.
+Create and initialize a new UnitySocketIO client.
 
 ```c#
 Client client = new Client(url);
