@@ -57,23 +57,26 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SimpleJson">
-      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\SimpleJson.dll</HintPath>
+      <HintPath>bin\Debug\SimpleJson.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Common">
-      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\SuperSocket.ClientEngine.Common.dll</HintPath>
+      <HintPath>bin\Debug\SuperSocket.ClientEngine.Common.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Core">
-      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\SuperSocket.ClientEngine.Core.dll</HintPath>
+      <HintPath>bin\Debug\SuperSocket.ClientEngine.Core.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Protocol">
-      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+      <HintPath>bin\Debug\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Proxy">
-      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\SuperSocket.ClientEngine.Proxy.dll</HintPath>
+      <HintPath>bin\Debug\SuperSocket.ClientEngine.Proxy.dll</HintPath>
     </Reference>
     <Reference Include="WebSocket4Net">
-      <HintPath>E:\unityWorkspace\SFS2X-TrisGame\Assets\Plugins\WebSocket4Net.dll</HintPath>
+      <HintPath>bin\Debug\WebSocket4Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="SocketIO">
+      <HintPath>bin\Debug\SocketIO.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
