@@ -8,7 +8,7 @@ We did a lot of works on changing the code of socketio4net.Client to support uni
 
 It is very simple to use UnitySocketIO. Copy all the DLLS locating in the file of /bin/Debug/  to your project.
 
-Of cource, you can download this project and compile it:
+Of course, you can download this project and compile it:
 
 >git clone  https://github.com/NetEase/UnitySocketIO.git
 
