@@ -1,8 +1,12 @@
 UnitySocketIO
 =============================
-The  project is the socket.io client for unity3d, based on socketio4net.Client (http://socketio4net.codeplex.com/).
-Because the project of socketio4net.Client just provides a .NET 4.0 C# client, and does not support unity3d. 
-We did a lot of works on changing the code of socketio4net.Client to support unity3d.
+The  project is the socket.io client for unity3d, written in C#.
+It's based on socketio4net.Client (http://socketio4net.codeplex.com/). However, 
+socketio4net.Client only provides a .NET 4.0 C# client, and does compatible with unity3d. 
+We've done a lot of works on supporting unity3d.
+
+The project was initially designed for unity client of [pomelo](https://github.com/NetEase/pomelo) 
+framework, which is a powerful, scalable game server framework.
 
 ## How to use
 
