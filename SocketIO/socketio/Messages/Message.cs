@@ -115,8 +115,8 @@ namespace SocketIOClient.Messages
             }
         }
 
-		public static Regex reMessageType = new Regex("^[0-8]{1}:", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
+		//public static Regex reMessageType = new Regex("^[0-8]{1}:", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		public static Regex reMessageType = new Regex("^[0-8]{1}:", RegexOptions.IgnoreCase);
 		public static IMessage Factory(string rawMessage)
 		{
 			
