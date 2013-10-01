@@ -26,7 +26,7 @@ Client client = new Client(url);
 client.Opened += SocketOpened;
 client.Message += SocketMessage;
 client.SocketConnectionClosed += SocketConnectionClosed;
-client.Message +=SocketError;
+client.Error +=SocketError;
 
 client.Connect();
 
