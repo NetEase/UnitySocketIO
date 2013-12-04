@@ -67,7 +67,7 @@ namespace SocketIOClient.Messages
 						evtMsg.MessageText.Contains("args"))
 					{
 						evtMsg.Json = JsonEncodedEventMessage.Deserialize(evtMsg.MessageText);
-						evtMsg.Event = evtMsg.Json.Name;
+						evtMsg.Event = evtMsg.Json.name;
 					}
 					else
 						evtMsg.Json = new JsonEncodedEventMessage();

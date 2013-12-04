@@ -61,7 +61,7 @@ namespace SocketIOClient.Messages
 						if (payloadMatch.Success)
 						{
 							msg.Json = new JsonEncodedEventMessage();
-							msg.Json.Args = new string[]  {payloadMatch.Groups["payload"].Value};
+							msg.Json.args = new string[]  {payloadMatch.Groups["payload"].Value};
 						}
 					}
 				}
