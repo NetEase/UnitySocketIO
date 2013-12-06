@@ -9,9 +9,9 @@ namespace SocketIOClient.Messages
 {
     public class JsonEncodedEventMessage
     {
-         public string Name { get; set; }
+         public string name { get; set; }
 
-         public object[] Args { get; set; }
+         public object[] args { get; set; }
 
         public JsonEncodedEventMessage()
         {
@@ -24,15 +24,15 @@ namespace SocketIOClient.Messages
         
 		public JsonEncodedEventMessage(string name, object[] payloads)
         {
-            this.Name = name;
-            this.Args = payloads;
+            this.name = name;
+            this.args = payloads;
         }
 
         public T GetFirstArgAs<T>()
         {
             try
             {
-                var firstArg = this.Args.FirstOrDefault();
+                var firstArg = this.args.FirstOrDefault();
                 if (firstArg != null)
                     return SimpleJson.SimpleJson.DeserializeObject<T>(firstArg.ToString());
             }
@@ -46,7 +46,7 @@ namespace SocketIOClient.Messages
         public IEnumerable<T> GetArgsAs<T>()
         {
             List<T> items = new List<T>();
-            foreach (var i in this.Args)
+            foreach (var i in this.args)
             {
                 items.Add( SimpleJson.SimpleJson.DeserializeObject<T>(i.ToString()) );
             }
