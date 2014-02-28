@@ -60,11 +60,6 @@ namespace SocketIOClient
 		public event EventHandler<ErrorEventArgs> Error;
 
 		/// <summary>
-		/// ResetEvent for Outbound MessageQueue Empty Event - all pending messages have been sent
-		/// </summary>
-		public ManualResetEvent MessageQueueEmptyEvent = new ManualResetEvent(true);
-
-		/// <summary>
 		/// Connection Open Event
 		/// </summary>
 		public ManualResetEvent ConnectionOpenEvent = new ManualResetEvent(false);
@@ -128,9 +123,6 @@ namespace SocketIOClient
 
 			this.registrationManager = new RegistrationManager();
 			this.outboundQueue =  (new ConcurrentQueue<string>());
-			this.dequeuOutBoundMsgTask = new Thread(new ThreadStart(dequeuOutboundMessages));
-			//this.dequeuOutBoundMsgTask = Task.Factory.StartNew(() => dequeuOutboundMessages(), TaskCreationOptions.LongRunning);
-			this.dequeuOutBoundMsgTask.Start();
 		}
 
 		/// <summary>
@@ -303,9 +295,11 @@ namespace SocketIOClient
 		/// <param name="msg"></param>
 		public void Send(IMessage msg)
 		{
-			this.MessageQueueEmptyEvent.Reset();
 			if (this.outboundQueue != null)
+			{
 				this.outboundQueue.Enqueue(msg.Encoded);
+				ThreadPool.QueueUserWorkItem(new WaitCallback(dequeueOutboundMessages));
+			}
 		}
 		
 		public void Send(string msg) {
@@ -315,9 +309,11 @@ namespace SocketIOClient
 
 		private void Send_backup(string rawEncodedMessageText)
 		{
-			this.MessageQueueEmptyEvent.Reset();
 			if (this.outboundQueue != null)
+			{
 				this.outboundQueue.Enqueue(rawEncodedMessageText);
+				ThreadPool.QueueUserWorkItem(new WaitCallback(dequeueOutboundMessages));
+			}
 		}
 
 		/// <summary>
@@ -413,6 +409,9 @@ namespace SocketIOClient
 				try { this.Opened(this, EventArgs.Empty); }
 				catch (Exception ex) { Trace.WriteLine(ex); }
 			}
+			
+			// send any messages we might have queued while opening the connection
+			ThreadPool.QueueUserWorkItem(new WaitCallback(dequeueOutboundMessages));
 
 		}
 
@@ -547,34 +546,16 @@ namespace SocketIOClient
 			}
 		}
 		/// <summary>
-		/// While connection is open, dequeue and send messages to the socket server
+		///  dequeue and send messages to the socket server
 		/// </summary>
-		protected void dequeuOutboundMessages()
+		protected void dequeueOutboundMessages(Object stateinfo)
 		{
-			while (this.outboundQueue != null)
+			if (this.ReadyState == WebSocketState.Open && this.outboundQueue != null)
 			{
-				if (this.ReadyState == WebSocketState.Open)
-				{
-					string msgString;
-					try
-					{
-						if (this.outboundQueue.TryDequeue(out msgString))
-						{
-							this.wsClient.Send(msgString);
-						}
-						else
-							this.MessageQueueEmptyEvent.Set();
-					}
-					catch(Exception ex)
-					{
-						Trace.WriteLine("The outboundQueue is no longer open...");
-					}
-				}
-				else
-				{
-					this.ConnectionOpenEvent.WaitOne(2000); // wait for connection event
-				}
-			}
+				string msgString;
+				while(this.outboundQueue.TryDequeue(out msgString))
+					this.wsClient.Send(msgString);
+			}	
 		}
 
 		/// <summary>
@@ -630,7 +611,6 @@ namespace SocketIOClient
 			{
 				// free managed resources
 				this.Close();
-				this.MessageQueueEmptyEvent.Close();
 				this.ConnectionOpenEvent.Close();
 			}
 			

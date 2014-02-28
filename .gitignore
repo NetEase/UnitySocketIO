@@ -1,0 +1,5 @@
+SocketIO/obj/*
+*.suo
+*j.user
+SocketIO/bin/*
+SocketIO.userprefs
