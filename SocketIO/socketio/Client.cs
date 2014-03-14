@@ -130,6 +130,16 @@ namespace SocketIOClient
 		/// </summary>
 		public void Connect()
 		{
+			Connect(null, null);
+		}
+
+		/// <summary>
+		/// Initiate the connection with Socket.IO service using provided handshake query string and headers 
+		/// </summary>
+		/// <param name="query"></param>
+		/// <param name="headers"></param>
+		public void Connect(string query, string[] headers)
+		{
 			lock (padLock)
 			{
 				if (!(this.ReadyState == WebSocketState.Connecting || this.ReadyState == WebSocketState.Open))
@@ -137,7 +147,7 @@ namespace SocketIOClient
 					try
 					{
 						this.ConnectionOpenEvent.Reset();
-						this.HandShake = this.requestHandshake(uri);// perform an initial HTTP request as a new, non-handshaken connection
+						this.HandShake = this.requestHandshake(uri, query, headers);// perform an initial HTTP request as a new, non-handshaken connection
 
 						if (this.HandShake == null || string.IsNullOrEmpty(this.HandShake.SID) || this.HandShake.HadError)
 						{
@@ -564,19 +574,24 @@ namespace SocketIOClient
 		/// <para>The tansport and sid are required as part of the ws: transport connection</para>
 		/// </summary>
 		/// <param name="uri">http://localhost:3000</param>
+		/// <param name="query">nullable, optional query string</param>
+		/// <param name="headers">nullable, Optional headers(ex: "name:value")</param>
 		/// <returns>Handshake object with sid value</returns>
 		/// <example>DownloadString: 13052140081337757257:15:25:websocket,htmlfile,xhr-polling,jsonp-polling</example>
-		protected SocketIOHandshake requestHandshake(Uri uri)
+		protected SocketIOHandshake requestHandshake(Uri uri, string query, string[] headers)
 		{
 			string value = string.Empty;
 			string errorText = string.Empty;
 			SocketIOHandshake handshake = null;
 
 			using (WebClient client = new WebClient())
-			{ 
+			{
+				if (headers != null && headers.Length > 0)
+					foreach (string s in headers)
+						client.Headers.Add(s);
 				try
 				{
-					value = client.DownloadString(string.Format("{0}://{1}:{2}/socket.io/1/{3}", uri.Scheme, uri.Host, uri.Port, uri.Query)); // #5 tkiley: The uri.Query is available in socket.io's handshakeData object during authorization
+					value = client.DownloadString(string.Format("{0}://{1}:{2}/socket.io/1/{3}", uri.Scheme, uri.Host, uri.Port, string.IsNullOrEmpty(query) ? uri.Query: query)); // #5 tkiley: The uri.Query is available in socket.io's handshakeData object during authorization
 					// 13052140081337757257:15:25:websocket,htmlfile,xhr-polling,jsonp-polling
 					if (string.IsNullOrEmpty(value))
 						errorText = "Did not receive handshake string from server";
