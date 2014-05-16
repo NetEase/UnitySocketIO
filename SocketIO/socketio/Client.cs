@@ -60,9 +60,9 @@ namespace SocketIOClient
 		public event EventHandler<ErrorEventArgs> Error;
 
 		/// <summary>
-		/// ResetEvent for Outbound MessageQueue Empty Event - all pending messages have been sent
+		/// ResetEvent for Outbound MessageQueue Waiting Event - One or more messages are waiting for send
 		/// </summary>
-		public ManualResetEvent MessageQueueEmptyEvent = new ManualResetEvent(true);
+		public ManualResetEvent MessageQueueWaitingEvent = new ManualResetEvent(false);
 
 		/// <summary>
 		/// Connection Open Event
@@ -303,9 +303,11 @@ namespace SocketIOClient
 		/// <param name="msg"></param>
 		public void Send(IMessage msg)
 		{
-			this.MessageQueueEmptyEvent.Reset();
 			if (this.outboundQueue != null)
+			{
 				this.outboundQueue.Enqueue(msg.Encoded);
+				this.MessageQueueWaitingEvent.Set();
+			}
 		}
 		
 		public void Send(string msg) {
@@ -315,9 +317,11 @@ namespace SocketIOClient
 
 		private void Send_backup(string rawEncodedMessageText)
 		{
-			this.MessageQueueEmptyEvent.Reset();
 			if (this.outboundQueue != null)
+			{
 				this.outboundQueue.Enqueue(rawEncodedMessageText);
+				this.MessageQueueWaitingEvent.Set();
+			}
 		}
 
 		/// <summary>
@@ -563,7 +567,10 @@ namespace SocketIOClient
 							this.wsClient.Send(msgString);
 						}
 						else
-							this.MessageQueueEmptyEvent.Set();
+						{
+							this.MessageQueueWaitingEvent.Reset();
+							this.MessageQueueWaitingEvent.WaitOne(2000);
+						}
 					}
 					catch(Exception ex)
 					{
@@ -630,7 +637,7 @@ namespace SocketIOClient
 			{
 				// free managed resources
 				this.Close();
-				this.MessageQueueEmptyEvent.Close();
+				this.MessageQueueWaitingEvent.Close();
 				this.ConnectionOpenEvent.Close();
 			}
 			
