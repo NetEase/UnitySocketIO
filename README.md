@@ -10,7 +10,7 @@ framework, which is a powerful, scalable game server framework.
 
 ## How to use
 
-It is very simple to use UnitySocketIO. Copy all the DLLs located in the file of /bin/Debug/ in your project.
+It is very simple to use UnitySocketIO. Copy all the DLLs located in the directory /bin/Debug/ to your project.
 
 Of course, you can download this project and compile it:
 
