@@ -161,7 +161,8 @@ namespace SocketIOClient
 								string.Format("{0}://{1}:{2}/socket.io/1/websocket/{3}", wsScheme, uri.Host, uri.Port, this.HandShake.SID),
 								string.Empty,
 								this.socketVersion);
-							this.wsClient.EnableAutoSendPing = true; // #4 tkiley: Websocket4net client library initiates a websocket heartbeat, causes delivery problems
+							//this.wsClient.EnableAutoSendPing = true; // #4 tkiley: Websocket4net client library initiates a websocket heartbeat, causes delivery problems
+							this.wsClient.EnableAutoSendPing = false; // ANF: socket.io has it's own heartbeat, this should be unnecessary
 							this.wsClient.Opened += this.wsClient_OpenEvent;
 							this.wsClient.MessageReceived += this.wsClient_MessageReceived;
 							this.wsClient.Error += this.wsClient_Error;
@@ -410,7 +411,10 @@ namespace SocketIOClient
 		// websocket client events - open, messages, errors, closing
 		private void wsClient_OpenEvent(object sender, EventArgs e)
 		{
-			this.socketHeartBeatTimer = new Timer(OnHeartBeatTimerCallback, new object(), HandShake.HeartbeatInterval, HandShake.HeartbeatInterval);
+			// ANF: only enable the heartbeat timer if the interval is non-zero
+			if(HandShake.HeartbeatInterval.TotalMilliseconds!=(double)0.0)
+				this.socketHeartBeatTimer = new Timer(OnHeartBeatTimerCallback, new object(), HandShake.HeartbeatInterval, HandShake.HeartbeatInterval);
+			
 			this.ConnectionOpenEvent.Set();
 
 			this.OnMessageEvent(new EventMessage() { Event = "open" });
