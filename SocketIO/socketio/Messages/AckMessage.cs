@@ -49,7 +49,7 @@ namespace SocketIOClient.Messages
             {
 				msg.Endpoint = args[2];
                 int id;
-				string[] parts = args[3].Split(new char[] {'+'});
+				string[] parts = args[3].Split(new char[] {'+'}, 2);
 				if (parts.Length > 1)
 				{
 					if (int.TryParse(parts[0], out id))
